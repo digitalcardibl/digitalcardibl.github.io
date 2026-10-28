@@ -267,17 +267,27 @@
 
         setText("initial", initials || "DC");
 
-        if (user.photo) {
-          const photo = document.getElementById("photo");
-          photo.src = user.photo;
-          photo.hidden = false;
-          document.getElementById("initial").hidden = true;
+       
+const photo = document.getElementById("photo");
+const initial = document.getElementById("initial");
 
-          photo.onerror = () => {
-            photo.hidden = true;
-            document.getElementById("initial").hidden = false;
-          };
-        }
+photo.hidden = true;
+initial.hidden = false;
+
+photo.onerror = () => {
+  photo.hidden = true;
+  initial.hidden = false;
+};
+
+photo.onload = () => {
+  photo.hidden = false;
+  initial.hidden = true;
+};
+
+if (user.photo) {
+  photo.src = new URL(user.photo, window.location.href).href;
+}
+
 
         if (user.email) {
           const email = document.getElementById("email");
